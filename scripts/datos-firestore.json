@@ -1,0 +1,324 @@
+{
+  "partidos": [
+    {
+      "id": "537417",
+      "fase": "Treintaidosavos",
+      "equipo1": "South Africa",
+      "equipo2": "Canada",
+      "goles1Real": 0,
+      "goles2Real": 1,
+      "fechaLimite": "2026-06-28T19:00:00Z",
+      "estado": "FT"
+    },
+    {
+      "id": "537423",
+      "fase": "Treintaidosavos",
+      "equipo1": "Brazil",
+      "equipo2": "Japan",
+      "goles1Real": 2,
+      "goles2Real": 1,
+      "fechaLimite": "2026-06-29T17:00:00Z",
+      "estado": "FT"
+    },
+    {
+      "id": "537415",
+      "fase": "Treintaidosavos",
+      "equipo1": "Germany",
+      "equipo2": "Paraguay",
+      "goles1Real": 1,
+      "goles2Real": 1,
+      "fechaLimite": "2026-06-29T20:30:00Z",
+      "estado": "FT"
+    },
+    {
+      "id": "537418",
+      "fase": "Treintaidosavos",
+      "equipo1": "Netherlands",
+      "equipo2": "Morocco",
+      "goles1Real": 1,
+      "goles2Real": 1,
+      "fechaLimite": "2026-06-30T01:00:00Z",
+      "estado": "FT"
+    },
+    {
+      "id": "537424",
+      "fase": "Treintaidosavos",
+      "equipo1": "Ivory Coast",
+      "equipo2": "Norway",
+      "goles1Real": 1,
+      "goles2Real": 2,
+      "fechaLimite": "2026-06-30T17:00:00Z",
+      "estado": "FT"
+    },
+    {
+      "id": "537416",
+      "fase": "Treintaidosavos",
+      "equipo1": "France",
+      "equipo2": "Sweden",
+      "goles1Real": 3,
+      "goles2Real": 0,
+      "fechaLimite": "2026-06-30T21:00:00Z",
+      "estado": "FT"
+    },
+    {
+      "id": "537425",
+      "fase": "Treintaidosavos",
+      "equipo1": "Mexico",
+      "equipo2": "Ecuador",
+      "goles1Real": 2,
+      "goles2Real": 0,
+      "fechaLimite": "2026-07-01T02:00:00Z",
+      "estado": "FT"
+    },
+    {
+      "id": "537426",
+      "fase": "Treintaidosavos",
+      "equipo1": "England",
+      "equipo2": "Congo DR",
+      "goles1Real": 2,
+      "goles2Real": 1,
+      "fechaLimite": "2026-07-01T16:00:00Z",
+      "estado": "FT"
+    },
+    {
+      "id": "537422",
+      "fase": "Treintaidosavos",
+      "equipo1": "Belgium",
+      "equipo2": "Senegal",
+      "goles1Real": 3,
+      "goles2Real": 2,
+      "fechaLimite": "2026-07-01T20:00:00Z",
+      "estado": "FT"
+    },
+    {
+      "id": "537421",
+      "fase": "Treintaidosavos",
+      "equipo1": "United States",
+      "equipo2": "Bosnia-Herzegovina",
+      "goles1Real": 2,
+      "goles2Real": 0,
+      "fechaLimite": "2026-07-02T00:00:00Z",
+      "estado": "FT"
+    },
+    {
+      "id": "537420",
+      "fase": "Treintaidosavos",
+      "equipo1": "Spain",
+      "equipo2": "Austria",
+      "goles1Real": 3,
+      "goles2Real": 0,
+      "fechaLimite": "2026-07-02T19:00:00Z",
+      "estado": "FT"
+    },
+    {
+      "id": "537419",
+      "fase": "Treintaidosavos",
+      "equipo1": "Portugal",
+      "equipo2": "Croatia",
+      "goles1Real": 2,
+      "goles2Real": 1,
+      "fechaLimite": "2026-07-02T23:00:00Z",
+      "estado": "FT"
+    },
+    {
+      "id": "537429",
+      "fase": "Treintaidosavos",
+      "equipo1": "Switzerland",
+      "equipo2": "Algeria",
+      "goles1Real": 2,
+      "goles2Real": 0,
+      "fechaLimite": "2026-07-03T03:00:00Z",
+      "estado": "FT"
+    },
+    {
+      "id": "537428",
+      "fase": "Treintaidosavos",
+      "equipo1": "Australia",
+      "equipo2": "Egypt",
+      "goles1Real": 1,
+      "goles2Real": 1,
+      "fechaLimite": "2026-07-03T18:00:00Z",
+      "estado": "FT"
+    },
+    {
+      "id": "537427",
+      "fase": "Treintaidosavos",
+      "equipo1": "Argentina",
+      "equipo2": "Cape Verde Islands",
+      "goles1Real": 3,
+      "goles2Real": 2,
+      "fechaLimite": "2026-07-03T22:00:00Z",
+      "estado": "FT"
+    },
+    {
+      "id": "537430",
+      "fase": "Treintaidosavos",
+      "equipo1": "Colombia",
+      "equipo2": "Ghana",
+      "goles1Real": 1,
+      "goles2Real": 0,
+      "fechaLimite": "2026-07-04T01:30:00Z",
+      "estado": "FT"
+    },
+    {
+      "id": "537376",
+      "fase": "Octavos de Final",
+      "equipo1": "Canada",
+      "equipo2": "Morocco",
+      "goles1Real": 0,
+      "goles2Real": 3,
+      "fechaLimite": "2026-07-04T17:00:00Z",
+      "estado": "FT"
+    },
+    {
+      "id": "537375",
+      "fase": "Octavos de Final",
+      "equipo1": "Paraguay",
+      "equipo2": "France",
+      "goles1Real": 0,
+      "goles2Real": 1,
+      "fechaLimite": "2026-07-04T21:00:00Z",
+      "estado": "FT"
+    },
+    {
+      "id": "537377",
+      "fase": "Octavos de Final",
+      "equipo1": "Brazil",
+      "equipo2": "Norway",
+      "goles1Real": null,
+      "goles2Real": null,
+      "fechaLimite": "2026-07-05T20:00:00Z",
+      "estado": "NS"
+    },
+    {
+      "id": "537378",
+      "fase": "Octavos de Final",
+      "equipo1": "Mexico",
+      "equipo2": "England",
+      "goles1Real": null,
+      "goles2Real": null,
+      "fechaLimite": "2026-07-06T00:00:00Z",
+      "estado": "NS"
+    },
+    {
+      "id": "537379",
+      "fase": "Octavos de Final",
+      "equipo1": "Portugal",
+      "equipo2": "Spain",
+      "goles1Real": null,
+      "goles2Real": null,
+      "fechaLimite": "2026-07-06T19:00:00Z",
+      "estado": "NS"
+    },
+    {
+      "id": "537380",
+      "fase": "Octavos de Final",
+      "equipo1": "United States",
+      "equipo2": "Belgium",
+      "goles1Real": null,
+      "goles2Real": null,
+      "fechaLimite": "2026-07-07T00:00:00Z",
+      "estado": "NS"
+    },
+    {
+      "id": "537381",
+      "fase": "Octavos de Final",
+      "equipo1": "Argentina",
+      "equipo2": "Egypt",
+      "goles1Real": null,
+      "goles2Real": null,
+      "fechaLimite": "2026-07-07T16:00:00Z",
+      "estado": "NS"
+    },
+    {
+      "id": "537382",
+      "fase": "Octavos de Final",
+      "equipo1": "Switzerland",
+      "equipo2": "Colombia",
+      "goles1Real": null,
+      "goles2Real": null,
+      "fechaLimite": "2026-07-07T20:00:00Z",
+      "estado": "NS"
+    },
+    {
+      "id": "537383",
+      "fase": "Cuartos de Final",
+      "equipo1": "France",
+      "equipo2": "Morocco",
+      "goles1Real": null,
+      "goles2Real": null,
+      "fechaLimite": "2026-07-09T20:00:00Z",
+      "estado": "NS"
+    },
+    {
+      "id": "537384",
+      "fase": "Cuartos de Final",
+      "equipo1": "",
+      "equipo2": "",
+      "goles1Real": null,
+      "goles2Real": null,
+      "fechaLimite": "2026-07-10T19:00:00Z",
+      "estado": "NS"
+    },
+    {
+      "id": "537385",
+      "fase": "Cuartos de Final",
+      "equipo1": "",
+      "equipo2": "",
+      "goles1Real": null,
+      "goles2Real": null,
+      "fechaLimite": "2026-07-11T21:00:00Z",
+      "estado": "NS"
+    },
+    {
+      "id": "537386",
+      "fase": "Cuartos de Final",
+      "equipo1": "",
+      "equipo2": "",
+      "goles1Real": null,
+      "goles2Real": null,
+      "fechaLimite": "2026-07-12T01:00:00Z",
+      "estado": "NS"
+    },
+    {
+      "id": "537387",
+      "fase": "Semifinal",
+      "equipo1": "",
+      "equipo2": "",
+      "goles1Real": null,
+      "goles2Real": null,
+      "fechaLimite": "2026-07-14T19:00:00Z",
+      "estado": "NS"
+    },
+    {
+      "id": "537388",
+      "fase": "Semifinal",
+      "equipo1": "",
+      "equipo2": "",
+      "goles1Real": null,
+      "goles2Real": null,
+      "fechaLimite": "2026-07-15T19:00:00Z",
+      "estado": "NS"
+    },
+    {
+      "id": "537389",
+      "fase": "Tercer Puesto",
+      "equipo1": "",
+      "equipo2": "",
+      "goles1Real": null,
+      "goles2Real": null,
+      "fechaLimite": "2026-07-18T21:00:00Z",
+      "estado": "NS"
+    },
+    {
+      "id": "537390",
+      "fase": "Final",
+      "equipo1": "",
+      "equipo2": "",
+      "goles1Real": null,
+      "goles2Real": null,
+      "fechaLimite": "2026-07-19T19:00:00Z",
+      "estado": "NS"
+    }
+  ]
+}
