@@ -1,12 +1,14 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { db } from '@/lib/firebase'
 import {
   collection,
   query,
   orderBy,
   onSnapshot,
+  doc,
+  setDoc,
 } from 'firebase/firestore'
 import type { Usuario } from '@/types'
 
@@ -23,6 +25,10 @@ const POSITION_COLORS = [
 export default function HomePage() {
   const [usuarios, setUsuarios] = useState<UsuarioConPosicion[]>([])
   const [loading, setLoading] = useState(true)
+  const [nombre, setNombre] = useState('')
+  const [creando, setCreando] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     const q = query(
@@ -48,6 +54,30 @@ export default function HomePage() {
     return unsub
   }, [])
 
+  const crearUsuario = async () => {
+    const name = nombre.trim()
+    if (!name) return
+    const id = name.toLowerCase().replace(/\s+/g, '')
+    if (usuarios.find((u) => u.id === id)) {
+      setError(`El usuario "${name}" ya existe`)
+      return
+    }
+    setCreando(true)
+    setError(null)
+    try {
+      await setDoc(doc(db, 'usuarios', id), {
+        nombre: name,
+        puntosTotales: 0,
+      })
+      setNombre('')
+      inputRef.current?.focus()
+    } catch {
+      setError('Error al crear usuario')
+    } finally {
+      setCreando(false)
+    }
+  }
+
   return (
     <div className="max-w-2xl mx-auto px-4 py-8">
       <h1 className="text-2xl font-bold text-center mb-6 dark:text-white">
@@ -60,6 +90,31 @@ export default function HomePage() {
         </div>
       ) : (
         <>
+          <div className="flex items-center gap-2 mb-4">
+            <input
+              ref={inputRef}
+              type="text"
+              value={nombre}
+              onChange={(e) => setNombre(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && crearUsuario()}
+              placeholder="Nombre del nuevo usuario"
+              className="flex-1 rounded-lg border border-zinc-300 dark:border-zinc-600 px-3 py-2 text-sm bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <button
+              onClick={crearUsuario}
+              disabled={creando || !nombre.trim()}
+              className="shrink-0 px-4 py-2 rounded-lg text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 disabled:bg-zinc-300 dark:disabled:bg-zinc-600 transition-colors"
+            >
+              {creando ? 'Agregando...' : 'Agregar'}
+            </button>
+          </div>
+
+          {error && (
+            <div className="mb-4 px-4 py-2 rounded-lg text-sm font-medium bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300">
+              {error}
+            </div>
+          )}
+
           <div className="bg-white dark:bg-zinc-900 rounded-xl shadow-sm border border-zinc-200 dark:border-zinc-700 overflow-hidden">
             <table className="w-full">
               <thead>
