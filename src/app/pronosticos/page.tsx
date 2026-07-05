@@ -263,62 +263,98 @@ export default function PronosticosPage() {
                     : 'border-zinc-200 dark:border-zinc-700'
                 }`}
               >
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wide">
-                    {p.fase}
-                  </span>
-                  {tieneResultado && (
-                    <span className="text-[10px] font-medium text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/30 px-2 py-0.5 rounded-full">
-                      Finalizado
-                    </span>
-                  )}
-                </div>
-                <div className="text-sm text-zinc-500 dark:text-zinc-400 mb-3">
-                  {new Date(p.fechaLimite).toLocaleDateString('es-ES', {
-                    day: 'numeric',
-                    month: 'long',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  })}
-                </div>
+                {tieneResultado ? (
+                  <>
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wide">
+                        {p.fase}
+                      </span>
+                      <span className="text-[10px] font-medium text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/30 px-2 py-0.5 rounded-full">
+                        Finalizado
+                      </span>
+                    </div>
+                    <div className="text-xs text-zinc-500 dark:text-zinc-400 mb-3">
+                      {new Date(p.fechaLimite).toLocaleDateString('es-ES', {
+                        day: 'numeric',
+                        month: 'long',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      })}
+                    </div>
 
-                <div className="flex items-center justify-center gap-3">
-                  <span className="text-base font-semibold w-24 text-right truncate dark:text-zinc-200">
-                    {getFlag(p.equipo1)} {p.equipo1}
-                  </span>
-                  <div className="flex items-center gap-2">
-                    {tieneResultado ? (
-                      <>
-                        <div className="flex flex-col items-center gap-0.5">
-                          <span className="text-[10px] text-zinc-400 dark:text-zinc-500">Pronóstico</span>
-                          <span className="w-14 h-8 flex items-center justify-center text-sm font-bold rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300">
-                            {pred ? g1 : '-'}
-                          </span>
-                        </div>
-                        <span className="text-zinc-300 dark:text-zinc-600 font-bold">:</span>
-                        <div className="flex flex-col items-center gap-0.5">
-                          <span className="text-[10px] text-zinc-400 dark:text-zinc-500">Pronóstico</span>
-                          <span className="w-14 h-8 flex items-center justify-center text-sm font-bold rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300">
-                            {pred ? g2 : '-'}
-                          </span>
-                        </div>
-                        <div className="mx-1 h-8 w-px bg-zinc-200 dark:bg-zinc-700" />
-                        <div className="flex flex-col items-center gap-0.5">
-                          <span className="text-[10px] text-green-600 dark:text-green-400">Real</span>
-                          <span className="w-14 h-8 flex items-center justify-center text-sm font-bold rounded-lg bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300">
-                            {p.goles1Real}
-                          </span>
-                        </div>
-                        <span className="text-zinc-300 dark:text-zinc-600 font-bold">:</span>
-                        <div className="flex flex-col items-center gap-0.5">
-                          <span className="text-[10px] text-green-600 dark:text-green-400">Real</span>
-                          <span className="w-14 h-8 flex items-center justify-center text-sm font-bold rounded-lg bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300">
-                            {p.goles2Real}
-                          </span>
-                        </div>
-                      </>
-                    ) : (
-                      <>
+                    <div className="text-center mb-3">
+                      <span className="text-base font-semibold dark:text-zinc-200">
+                        {getFlag(p.equipo1)} {p.equipo1}
+                      </span>
+                      <span className="text-zinc-400 dark:text-zinc-500 mx-2 text-xs">vs</span>
+                      <span className="text-base font-semibold dark:text-zinc-200">
+                        {p.equipo2} {getFlag(p.equipo2)}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center justify-center gap-4">
+                      <div className="flex flex-col items-center gap-0.5">
+                        <span className="text-[10px] text-zinc-400 dark:text-zinc-500">Pronóstico</span>
+                        <span className="w-12 h-8 flex items-center justify-center text-sm font-bold rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300">
+                          {pred ? g1 : '-'}
+                        </span>
+                      </div>
+                      <span className="text-zinc-300 dark:text-zinc-600 font-bold">:</span>
+                      <div className="flex flex-col items-center gap-0.5">
+                        <span className="text-[10px] text-zinc-400 dark:text-zinc-500">Pronóstico</span>
+                        <span className="w-12 h-8 flex items-center justify-center text-sm font-bold rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300">
+                          {pred ? g2 : '-'}
+                        </span>
+                      </div>
+                      <div className="mx-1 h-8 w-px bg-zinc-200 dark:bg-zinc-700" />
+                      <div className="flex flex-col items-center gap-0.5">
+                        <span className="text-[10px] text-green-600 dark:text-green-400">Real</span>
+                        <span className="w-12 h-8 flex items-center justify-center text-sm font-bold rounded-lg bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300">
+                          {p.goles1Real}
+                        </span>
+                      </div>
+                      <span className="text-zinc-300 dark:text-zinc-600 font-bold">:</span>
+                      <div className="flex flex-col items-center gap-0.5">
+                        <span className="text-[10px] text-green-600 dark:text-green-400">Real</span>
+                        <span className="w-12 h-8 flex items-center justify-center text-sm font-bold rounded-lg bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300">
+                          {p.goles2Real}
+                        </span>
+                      </div>
+                    </div>
+
+                    {pred && (
+                      <div className="mt-2 text-center text-xs text-zinc-500 dark:text-zinc-400">
+                        {g1 === p.goles1Real && g2 === p.goles2Real
+                          ? '⚽ ¡Resultado exacto!'
+                          : ((g1 > g2 && p.goles1Real! > p.goles2Real!) ||
+                             (g2 > g1 && p.goles2Real! > p.goles1Real!) ||
+                             (g1 === g2 && p.goles1Real === p.goles2Real))
+                          ? '✅ Ganador acertado'
+                          : '❌ Incorrecto'}
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wide">
+                        {p.fase}
+                      </span>
+                    </div>
+                    <div className="text-sm text-zinc-500 dark:text-zinc-400 mb-3">
+                      {new Date(p.fechaLimite).toLocaleDateString('es-ES', {
+                        day: 'numeric',
+                        month: 'long',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      })}
+                    </div>
+
+                    <div className="flex items-center justify-center gap-3">
+                      <span className="text-base font-semibold w-24 text-right truncate dark:text-zinc-200">
+                        {getFlag(p.equipo1)} {p.equipo1}
+                      </span>
+                      <div className="flex items-center gap-2">
                         <input
                           type="number"
                           min={0}
@@ -350,46 +386,34 @@ export default function PronosticosPage() {
                               : 'bg-white dark:bg-zinc-800 border-zinc-300 dark:border-zinc-600 focus:ring-2 focus:ring-blue-500 focus:outline-none text-zinc-900 dark:text-zinc-100'
                           }`}
                         />
-                      </>
+                      </div>
+                      <span className="text-base font-semibold w-24 truncate dark:text-zinc-200">
+                        {p.equipo2} {getFlag(p.equipo2)}
+                      </span>
+                    </div>
+
+                    {!expired && (
+                      <div className="mt-3 text-center">
+                        <button
+                          onClick={() => guardar(p.id, g1, g2)}
+                          disabled={isSaving}
+                          className={`px-5 py-2 rounded-lg text-sm font-medium text-white transition-colors ${
+                            isSaving
+                              ? 'bg-blue-400 cursor-not-allowed'
+                              : 'bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600'
+                          }`}
+                        >
+                          {isSaving ? 'Guardando...' : 'Guardar Pronóstico'}
+                        </button>
+                      </div>
                     )}
-                  </div>
-                  <span className="text-base font-semibold w-24 truncate dark:text-zinc-200">
-                    {p.equipo2} {getFlag(p.equipo2)}
-                  </span>
-                </div>
 
-                {tieneResultado && pred && (
-                  <div className="mt-2 text-center text-xs text-zinc-500 dark:text-zinc-400">
-                    {g1 === p.goles1Real && g2 === p.goles2Real
-                      ? '⚽ ¡Resultado exacto!'
-                      : ((g1 > g2 && p.goles1Real! > p.goles2Real!) ||
-                         (g2 > g1 && p.goles2Real! > p.goles1Real!) ||
-                         (g1 === g2 && p.goles1Real === p.goles2Real))
-                      ? '✅ Ganador acertado'
-                      : '❌ Incorrecto'}
-                  </div>
-                )}
-
-                {!tieneResultado && !expired && (
-                  <div className="mt-3 text-center">
-                    <button
-                      onClick={() => guardar(p.id, g1, g2)}
-                      disabled={isSaving}
-                      className={`px-5 py-2 rounded-lg text-sm font-medium text-white transition-colors ${
-                        isSaving
-                          ? 'bg-blue-400 cursor-not-allowed'
-                          : 'bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600'
-                      }`}
-                    >
-                      {isSaving ? 'Guardando...' : 'Guardar Pronóstico'}
-                    </button>
-                  </div>
-                )}
-
-                {!tieneResultado && expired && (
-                  <p className="mt-3 text-center text-xs text-zinc-400 dark:text-zinc-500">
-                    Tiempo límite expirado — esperando resultado
-                  </p>
+                    {expired && (
+                      <p className="mt-3 text-center text-xs text-zinc-400 dark:text-zinc-500">
+                        Tiempo límite expirado — esperando resultado
+                      </p>
+                    )}
+                  </>
                 )}
               </div>
             )
