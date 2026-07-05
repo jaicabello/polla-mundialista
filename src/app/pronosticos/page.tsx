@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useMemo } from 'react'
 import { db } from '@/lib/firebase'
 import {
   collection,
@@ -12,6 +12,15 @@ import {
 } from 'firebase/firestore'
 import type { Partido, Usuario, Prediccion } from '@/types'
 import { getFlag } from '@/lib/flags'
+
+const ICONOS_FASE: Record<string, string> = {
+  Treintaidosavos: '1/32',
+  'Octavos de Final': '1/8',
+  'Cuartos de Final': '1/4',
+  Semifinal: '1/2',
+  'Tercer Puesto': '3°',
+  Final: '🏆',
+}
 
 export default function PronosticosPage() {
   const [usuarios, setUsuarios] = useState<Usuario[]>([])
@@ -27,6 +36,17 @@ export default function PronosticosPage() {
   } | null>(null)
   const [loading, setLoading] = useState(true)
   const [now, setNow] = useState(new Date())
+  const [faseActiva, setFaseActiva] = useState('Todos')
+
+  const fases = useMemo(() => {
+    const set = new Set(partidos.map((p) => p.fase))
+    return ['Todos', ...set]
+  }, [partidos])
+
+  const partidosFiltrados = useMemo(
+    () => (faseActiva === 'Todos' ? partidos : partidos.filter((p) => p.fase === faseActiva)),
+    [partidos, faseActiva]
+  )
 
   useEffect(() => {
     const cargarUsuarios = async () => {
@@ -197,8 +217,34 @@ export default function PronosticosPage() {
           No hay partidos cargados
         </div>
       ) : (
-        <div className="space-y-4">
-          {partidos.map((p) => {
+        <>
+          <div className="flex gap-1 overflow-x-auto pb-2 mb-4 scrollbar-none">
+            {fases.map((fase) => {
+              const count = fase === 'Todos' ? partidos.length : partidos.filter((p) => p.fase === fase).length
+              return (
+                <button
+                  key={fase}
+                  onClick={() => setFaseActiva(fase)}
+                  className={`shrink-0 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                    faseActiva === fase
+                      ? 'bg-blue-600 text-white shadow'
+                      : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700'
+                  }`}
+                >
+                  <span className="leading-tight">{ICONOS_FASE[fase] || fase}</span>
+                  <span className="text-[10px] opacity-70 ml-1">({count})</span>
+                </button>
+              )
+            })}
+          </div>
+
+          {partidosFiltrados.length === 0 ? (
+            <div className="text-center py-12 text-zinc-400 dark:text-zinc-500">
+              No hay partidos en esta fase
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {partidosFiltrados.map((p) => {
             const expired = isExpired(p.fechaLimite)
             const tieneResultado = p.goles1Real !== null && p.goles2Real !== null
             const pred = predicciones[p.id]
@@ -348,7 +394,9 @@ export default function PronosticosPage() {
               </div>
             )
           })}
-        </div>
+            </div>
+          )}
+        </>
       )}
     </div>
   )
