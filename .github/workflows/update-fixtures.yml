@@ -1,0 +1,12 @@
+name: Update fixtures
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call cron endpoint
+        run: curl -s "https://polla-mundialista-lovat.vercel.app/api/cron/update-fixtures"
