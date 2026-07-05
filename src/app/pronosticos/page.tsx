@@ -47,11 +47,7 @@ export default function PronosticosPage() {
     }
 
     const cargarPartidos = async () => {
-      const q = query(
-        collection(db, 'partidos'),
-        where('estado', '==', 'NS')
-      )
-      const snap = await getDocs(q)
+      const snap = await getDocs(collection(db, 'partidos'))
       const matches = snap.docs.map(
         (d) => ({ id: d.id, ...d.data() }) as Partido
       )
@@ -198,12 +194,13 @@ export default function PronosticosPage() {
 
       {partidos.length === 0 ? (
         <div className="text-center py-12 text-zinc-400 dark:text-zinc-500">
-          No hay partidos disponibles para pronosticar
+          No hay partidos cargados
         </div>
       ) : (
         <div className="space-y-4">
           {partidos.map((p) => {
             const expired = isExpired(p.fechaLimite)
+            const tieneResultado = p.goles1Real !== null && p.goles2Real !== null
             const pred = predicciones[p.id]
             const g1 = pred?.goles1Pred ?? 0
             const g2 = pred?.goles2Pred ?? 0
@@ -213,11 +210,22 @@ export default function PronosticosPage() {
               <div
                 key={p.id}
                 className={`bg-white dark:bg-zinc-900 rounded-xl border p-4 shadow-sm ${
-                  expired ? 'border-zinc-200 dark:border-zinc-700 opacity-60' : 'border-zinc-200 dark:border-zinc-700'
+                  tieneResultado
+                    ? 'border-green-200 dark:border-green-800'
+                    : expired
+                    ? 'border-zinc-200 dark:border-zinc-700 opacity-60'
+                    : 'border-zinc-200 dark:border-zinc-700'
                 }`}
               >
-                <div className="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wide mb-2">
-                  {p.fase}
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wide">
+                    {p.fase}
+                  </span>
+                  {tieneResultado && (
+                    <span className="text-[10px] font-medium text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/30 px-2 py-0.5 rounded-full">
+                      Finalizado
+                    </span>
+                  )}
                 </div>
                 <div className="text-sm text-zinc-500 dark:text-zinc-400 mb-3">
                   {new Date(p.fechaLimite).toLocaleDateString('es-ES', {
@@ -233,44 +241,90 @@ export default function PronosticosPage() {
                     {getFlag(p.equipo1)} {p.equipo1}
                   </span>
                   <div className="flex items-center gap-2">
-                    <input
-                      type="number"
-                      min={0}
-                      max={99}
-                      value={g1}
-                      disabled={expired}
-                      onChange={(e) =>
-                        handleChange(p.id, 'goles1Pred', e.target.value)
-                      }
-                      className={`w-14 h-10 text-center text-lg font-bold rounded-lg border ${
-                        expired
-                          ? 'bg-zinc-100 dark:bg-zinc-800 border-zinc-200 dark:border-zinc-600 text-zinc-400 dark:text-zinc-500'
-                          : 'bg-white dark:bg-zinc-800 border-zinc-300 dark:border-zinc-600 focus:ring-2 focus:ring-blue-500 focus:outline-none text-zinc-900 dark:text-zinc-100'
-                      }`}
-                    />
-                    <span className="text-zinc-400 dark:text-zinc-500 font-bold">-</span>
-                    <input
-                      type="number"
-                      min={0}
-                      max={99}
-                      value={g2}
-                      disabled={expired}
-                      onChange={(e) =>
-                        handleChange(p.id, 'goles2Pred', e.target.value)
-                      }
-                      className={`w-14 h-10 text-center text-lg font-bold rounded-lg border ${
-                        expired
-                          ? 'bg-zinc-100 dark:bg-zinc-800 border-zinc-200 dark:border-zinc-600 text-zinc-400 dark:text-zinc-500'
-                          : 'bg-white dark:bg-zinc-800 border-zinc-300 dark:border-zinc-600 focus:ring-2 focus:ring-blue-500 focus:outline-none text-zinc-900 dark:text-zinc-100'
-                      }`}
-                    />
+                    {tieneResultado ? (
+                      <>
+                        <div className="flex flex-col items-center gap-0.5">
+                          <span className="text-[10px] text-zinc-400 dark:text-zinc-500">Pronóstico</span>
+                          <span className="w-14 h-8 flex items-center justify-center text-sm font-bold rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300">
+                            {pred ? g1 : '-'}
+                          </span>
+                        </div>
+                        <span className="text-zinc-300 dark:text-zinc-600 font-bold">:</span>
+                        <div className="flex flex-col items-center gap-0.5">
+                          <span className="text-[10px] text-zinc-400 dark:text-zinc-500">Pronóstico</span>
+                          <span className="w-14 h-8 flex items-center justify-center text-sm font-bold rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300">
+                            {pred ? g2 : '-'}
+                          </span>
+                        </div>
+                        <div className="mx-1 h-8 w-px bg-zinc-200 dark:bg-zinc-700" />
+                        <div className="flex flex-col items-center gap-0.5">
+                          <span className="text-[10px] text-green-600 dark:text-green-400">Real</span>
+                          <span className="w-14 h-8 flex items-center justify-center text-sm font-bold rounded-lg bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300">
+                            {p.goles1Real}
+                          </span>
+                        </div>
+                        <span className="text-zinc-300 dark:text-zinc-600 font-bold">:</span>
+                        <div className="flex flex-col items-center gap-0.5">
+                          <span className="text-[10px] text-green-600 dark:text-green-400">Real</span>
+                          <span className="w-14 h-8 flex items-center justify-center text-sm font-bold rounded-lg bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300">
+                            {p.goles2Real}
+                          </span>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <input
+                          type="number"
+                          min={0}
+                          max={99}
+                          value={g1}
+                          disabled={expired}
+                          onChange={(e) =>
+                            handleChange(p.id, 'goles1Pred', e.target.value)
+                          }
+                          className={`w-14 h-10 text-center text-lg font-bold rounded-lg border ${
+                            expired
+                              ? 'bg-zinc-100 dark:bg-zinc-800 border-zinc-200 dark:border-zinc-600 text-zinc-400 dark:text-zinc-500'
+                              : 'bg-white dark:bg-zinc-800 border-zinc-300 dark:border-zinc-600 focus:ring-2 focus:ring-blue-500 focus:outline-none text-zinc-900 dark:text-zinc-100'
+                          }`}
+                        />
+                        <span className="text-zinc-400 dark:text-zinc-500 font-bold">-</span>
+                        <input
+                          type="number"
+                          min={0}
+                          max={99}
+                          value={g2}
+                          disabled={expired}
+                          onChange={(e) =>
+                            handleChange(p.id, 'goles2Pred', e.target.value)
+                          }
+                          className={`w-14 h-10 text-center text-lg font-bold rounded-lg border ${
+                            expired
+                              ? 'bg-zinc-100 dark:bg-zinc-800 border-zinc-200 dark:border-zinc-600 text-zinc-400 dark:text-zinc-500'
+                              : 'bg-white dark:bg-zinc-800 border-zinc-300 dark:border-zinc-600 focus:ring-2 focus:ring-blue-500 focus:outline-none text-zinc-900 dark:text-zinc-100'
+                          }`}
+                        />
+                      </>
+                    )}
                   </div>
                   <span className="text-base font-semibold w-24 truncate dark:text-zinc-200">
                     {p.equipo2} {getFlag(p.equipo2)}
                   </span>
                 </div>
 
-                {!expired && (
+                {tieneResultado && pred && (
+                  <div className="mt-2 text-center text-xs text-zinc-500 dark:text-zinc-400">
+                    {g1 === p.goles1Real && g2 === p.goles2Real
+                      ? '⚽ ¡Resultado exacto!'
+                      : ((g1 > g2 && p.goles1Real! > p.goles2Real!) ||
+                         (g2 > g1 && p.goles2Real! > p.goles1Real!) ||
+                         (g1 === g2 && p.goles1Real === p.goles2Real))
+                      ? '✅ Ganador acertado'
+                      : '❌ Incorrecto'}
+                  </div>
+                )}
+
+                {!tieneResultado && !expired && (
                   <div className="mt-3 text-center">
                     <button
                       onClick={() => guardar(p.id, g1, g2)}
@@ -286,9 +340,9 @@ export default function PronosticosPage() {
                   </div>
                 )}
 
-                {expired && (
+                {!tieneResultado && expired && (
                   <p className="mt-3 text-center text-xs text-zinc-400 dark:text-zinc-500">
-                    Tiempo límite expirado
+                    Tiempo límite expirado — esperando resultado
                   </p>
                 )}
               </div>
