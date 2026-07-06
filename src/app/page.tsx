@@ -1,7 +1,7 @@
-'use client'
+'use client';
 
-import { useEffect, useState, useRef } from 'react'
-import { db } from '@/lib/firebase'
+import { useEffect, useState, useRef } from 'react';
+import { db } from '@/lib/firebase';
 import {
   collection,
   query,
@@ -9,32 +9,28 @@ import {
   onSnapshot,
   doc,
   setDoc,
-} from 'firebase/firestore'
-import type { Usuario } from '@/types'
+} from 'firebase/firestore';
+import type { Usuario } from '@/types';
 
 interface UsuarioConPosicion extends Usuario {
-  posicion: number
+  posicion: number;
 }
 
-const POSITION_COLORS = [
-  'text-amber-500',
-  'text-gray-400',
-  'text-amber-700',
-]
+const POSITION_COLORS = ['text-amber-500', 'text-gray-400', 'text-amber-700'];
 
 export default function HomePage() {
-  const [usuarios, setUsuarios] = useState<UsuarioConPosicion[]>([])
-  const [loading, setLoading] = useState(true)
-  const [nombre, setNombre] = useState('')
-  const [creando, setCreando] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const inputRef = useRef<HTMLInputElement>(null)
+  const [usuarios, setUsuarios] = useState<UsuarioConPosicion[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [nombre, setNombre] = useState('');
+  const [creando, setCreando] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const q = query(
       collection(db, 'usuarios'),
-      orderBy('puntosTotales', 'desc')
-    )
+      orderBy('puntosTotales', 'desc'),
+    );
     const unsub = onSnapshot(
       q,
       (snap) => {
@@ -42,41 +38,41 @@ export default function HomePage() {
           id: d.id,
           ...d.data(),
           posicion: i + 1,
-        })) as UsuarioConPosicion[]
-        setUsuarios(users)
-        setLoading(false)
+        })) as UsuarioConPosicion[];
+        setUsuarios(users);
+        setLoading(false);
       },
       (err) => {
-        console.error('Error fetching leaderboard:', err)
-        setLoading(false)
-      }
-    )
-    return unsub
-  }, [])
+        console.error('Error fetching leaderboard:', err);
+        setLoading(false);
+      },
+    );
+    return unsub;
+  }, []);
 
   const crearUsuario = async () => {
-    const name = nombre.trim()
-    if (!name) return
-    const id = name.toLowerCase().replace(/\s+/g, '')
+    const name = nombre.trim();
+    if (!name) return;
+    const id = name.toLowerCase().replace(/\s+/g, '');
     if (usuarios.find((u) => u.id === id)) {
-      setError(`El usuario "${name}" ya existe`)
-      return
+      setError(`El usuario "${name}" ya existe`);
+      return;
     }
-    setCreando(true)
-    setError(null)
+    setCreando(true);
+    setError(null);
     try {
       await setDoc(doc(db, 'usuarios', id), {
         nombre: name,
         puntosTotales: 0,
-      })
-      setNombre('')
-      inputRef.current?.focus()
+      });
+      setNombre('');
+      inputRef.current?.focus();
     } catch {
-      setError('Error al crear usuario')
+      setError('Error al crear usuario');
     } finally {
-      setCreando(false)
+      setCreando(false);
     }
-  }
+  };
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-8">
@@ -170,12 +166,27 @@ export default function HomePage() {
             <p className="font-semibold text-zinc-700 dark:text-zinc-300">
               Sistema de puntuación
             </p>
-            <p>⚽ Resultado exacto: <strong className="text-zinc-800 dark:text-zinc-200">6 puntos</strong></p>
-            <p>✅ Ganador o empate acertado: <strong className="text-zinc-800 dark:text-zinc-200">3 puntos</strong></p>
-            <p>❌ Pronóstico incorrecto: <strong className="text-zinc-800 dark:text-zinc-200">0 puntos</strong></p>
+            <p>
+              ⚽ Resultado exacto:{' '}
+              <strong className="text-zinc-800 dark:text-zinc-200">
+                6 puntos
+              </strong>
+            </p>
+            <p>
+              ✅ Ganador o empate acertado:{' '}
+              <strong className="text-zinc-800 dark:text-zinc-200">
+                3 puntos
+              </strong>
+            </p>
+            <p>
+              ❌ Pronóstico incorrecto:{' '}
+              <strong className="text-zinc-800 dark:text-zinc-200">
+                0 puntos
+              </strong>
+            </p>
           </div>
         </>
       )}
     </div>
-  )
+  );
 }
