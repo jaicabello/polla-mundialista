@@ -1,12 +1,14 @@
 import { NextResponse } from 'next/server';
 import { adminDb } from '@/lib/firebase-admin';
 import { FieldValue } from 'firebase-admin/firestore';
-import { calcularPuntos } from '@/lib/puntajes';
+import { calcularPuntos, calcularPuntosPenales } from '@/lib/puntajes';
 
 interface FinishedMatch {
   id: string;
   goles1: number;
   goles2: number;
+  penales1: number | null;
+  penales2: number | null;
 }
 
 interface FootballDataMatch {
@@ -14,6 +16,7 @@ interface FootballDataMatch {
   status: string;
   score: {
     fullTime: { home: number | null; away: number | null };
+    penalties?: { home: number | null; away: number | null } | null;
   };
 }
 
@@ -32,11 +35,16 @@ async function fetchFromFootballData(): Promise<FinishedMatch[]> {
 
   return (data.matches as FootballDataMatch[])
     .filter((m) => m.status === 'FINISHED')
-    .map((m) => ({
-      id: String(m.id),
-      goles1: m.score.fullTime.home ?? 0,
-      goles2: m.score.fullTime.away ?? 0,
-    }));
+    .map((m) => {
+      const penales = m.score.penalties
+      return {
+        id: String(m.id),
+        goles1: m.score.fullTime.home ?? 0,
+        goles2: m.score.fullTime.away ?? 0,
+        penales1: penales?.home ?? null,
+        penales2: penales?.away ?? null,
+      }
+    });
 }
 
 async function fetchFromApiFootball(): Promise<FinishedMatch[]> {
@@ -64,6 +72,8 @@ async function fetchFromApiFootball(): Promise<FinishedMatch[]> {
       id: String(f.fixture.id),
       goles1: f.goals?.home ?? f.score?.fulltime?.home ?? 0,
       goles2: f.goals?.away ?? f.score?.fulltime?.away ?? 0,
+      penales1: f.score?.penalties?.home ?? null,
+      penales2: f.score?.penalties?.away ?? null,
     }));
 }
 
@@ -99,12 +109,17 @@ export async function GET() {
         .where('procesado', '==', false)
         .get();
 
-      const batch = adminDb.batch();
-      batch.update(partidosRef.doc(match.id), {
+      const updateData: Record<string, any> = {
         goles1Real: match.goles1,
         goles2Real: match.goles2,
         estado: 'FT',
-      });
+      }
+      if (match.penales1 !== null && match.penales2 !== null) {
+        updateData.golesPenales1 = match.penales1
+        updateData.golesPenales2 = match.penales2
+      }
+      const batch = adminDb.batch();
+      batch.update(partidosRef.doc(match.id), updateData);
 
       prediccionesSnap.forEach((predDoc) => {
         const pred = predDoc.data();
@@ -114,14 +129,20 @@ export async function GET() {
           pred.goles1Pred,
           pred.goles2Pred,
         );
+        const penalesPuntos = calcularPuntosPenales(
+          match.penales1, match.penales2,
+          pred.penales1Pred, pred.penales2Pred,
+        );
+        const total = puntos + penalesPuntos;
 
         batch.update(prediccionesRef.doc(predDoc.id), {
           puntosGanados: puntos,
+          penalesPuntos,
           procesado: true,
         });
 
         batch.update(usuariosRef.doc(pred.usuarioId), {
-          puntosTotales: FieldValue.increment(puntos),
+          puntosTotales: FieldValue.increment(total),
         });
 
         processedCount++;

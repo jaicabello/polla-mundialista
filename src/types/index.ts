@@ -11,6 +11,8 @@ export interface Partido {
   equipo2: string
   goles1Real: number | null
   goles2Real: number | null
+  golesPenales1: number | null
+  golesPenales2: number | null
   fechaLimite: string
   estado: 'NS' | 'FT'
 }
@@ -20,6 +22,9 @@ export interface Prediccion {
   partidoId: string
   goles1Pred: number
   goles2Pred: number
+  penales1Pred: number | null
+  penales2Pred: number | null
   puntosGanados: number
+  penalesPuntos: number
   procesado: boolean
 }

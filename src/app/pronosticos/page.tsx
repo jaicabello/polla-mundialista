@@ -27,7 +27,7 @@ export default function PronosticosPage() {
   const [usuarioId, setUsuarioId] = useState('')
   const [partidos, setPartidos] = useState<Partido[]>([])
   const [predicciones, setPredicciones] = useState<
-    Record<string, { goles1Pred: number; goles2Pred: number }>
+    Record<string, { goles1Pred: number; goles2Pred: number; penales1Pred: number | null; penales2Pred: number | null }>
   >({})
   const [saving, setSaving] = useState<string | null>(null)
   const [feedback, setFeedback] = useState<{
@@ -95,13 +95,15 @@ export default function PronosticosPage() {
       const snap = await getDocs(q)
       const preds: Record<
         string,
-        { goles1Pred: number; goles2Pred: number }
+        { goles1Pred: number; goles2Pred: number; penales1Pred: number | null; penales2Pred: number | null }
       > = {}
       snap.docs.forEach((d) => {
         const data = d.data() as Prediccion
         preds[data.partidoId] = {
           goles1Pred: data.goles1Pred,
           goles2Pred: data.goles2Pred,
+          penales1Pred: data.penales1Pred ?? null,
+          penales2Pred: data.penales2Pred ?? null,
         }
       })
       setPredicciones(preds)
@@ -124,7 +126,7 @@ export default function PronosticosPage() {
 
   const handleChange = (
     partidoId: string,
-    campo: 'goles1Pred' | 'goles2Pred',
+    campo: 'goles1Pred' | 'goles2Pred' | 'penales1Pred' | 'penales2Pred',
     valor: string
   ) => {
     const num = valor === '' ? 0 : Math.max(0, parseInt(valor, 10) || 0)
@@ -140,7 +142,9 @@ export default function PronosticosPage() {
   const guardar = async (
     partidoId: string,
     goles1: number,
-    goles2: number
+    goles2: number,
+    penales1: number | null,
+    penales2: number | null
   ) => {
     if (!usuarioId) return
     setSaving(partidoId)
@@ -152,7 +156,10 @@ export default function PronosticosPage() {
         partidoId,
         goles1Pred: goles1,
         goles2Pred: goles2,
+        penales1Pred: penales1,
+        penales2Pred: penales2,
         puntosGanados: 0,
+        penalesPuntos: 0,
         procesado: false,
       })
       setFeedback({ tipo: 'ok', msg: 'Pronóstico guardado' })
@@ -323,14 +330,36 @@ export default function PronosticosPage() {
                     </div>
 
                     {pred && (
-                      <div className="mt-2 text-center text-xs text-zinc-500 dark:text-zinc-400">
-                        {g1 === p.goles1Real && g2 === p.goles2Real
-                          ? '⚽ ¡Resultado exacto!'
-                          : ((g1 > g2 && p.goles1Real! > p.goles2Real!) ||
-                             (g2 > g1 && p.goles2Real! > p.goles1Real!) ||
-                             (g1 === g2 && p.goles1Real === p.goles2Real))
-                          ? '✅ Ganador acertado'
-                          : '❌ Incorrecto'}
+                      <div className="mt-2 text-center text-xs text-zinc-500 dark:text-zinc-400 space-y-1">
+                        <div>
+                          {g1 === p.goles1Real && g2 === p.goles2Real
+                            ? '⚽ ¡Resultado exacto!'
+                            : ((g1 > g2 && p.goles1Real! > p.goles2Real!) ||
+                               (g2 > g1 && p.goles2Real! > p.goles1Real!) ||
+                               (g1 === g2 && p.goles1Real === p.goles2Real))
+                            ? '✅ Ganador acertado'
+                            : '❌ Incorrecto'}
+                        </div>
+                        {p.golesPenales1 !== null && p.golesPenales2 !== null && (
+                          <div className="flex items-center justify-center gap-2 text-[11px]">
+                            <span className="text-amber-500 dark:text-amber-400 font-medium">Penales</span>
+                            <span className="font-bold">
+                              {pred.penales1Pred != null ? pred.penales1Pred : '-'} : {pred.penales2Pred != null ? pred.penales2Pred : '-'}
+                            </span>
+                            <span className="text-zinc-300 dark:text-zinc-600">→</span>
+                            <span className="font-bold text-green-600 dark:text-green-400">
+                              {p.golesPenales1} : {p.golesPenales2}
+                            </span>
+                            {pred.penales1Pred != null && pred.penales2Pred != null && (
+                              <span className="ml-1">
+                                {((pred.penales1Pred > pred.penales2Pred && p.golesPenales1 > p.golesPenales2) ||
+                                  (pred.penales2Pred > pred.penales1Pred && p.golesPenales2 > p.golesPenales1))
+                                  ? '✅'
+                                  : '❌'}
+                              </span>
+                            )}
+                          </div>
+                        )}
                       </div>
                     )}
                   </>
@@ -393,18 +422,67 @@ export default function PronosticosPage() {
                     </div>
 
                     {!expired && (
-                      <div className="mt-3 text-center">
-                        <button
-                          onClick={() => guardar(p.id, g1, g2)}
-                          disabled={isSaving}
-                          className={`px-5 py-2 rounded-lg text-sm font-medium text-white transition-colors ${
-                            isSaving
-                              ? 'bg-blue-400 cursor-not-allowed'
-                              : 'bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600'
-                          }`}
-                        >
-                          {isSaving ? 'Guardando...' : 'Guardar Pronóstico'}
-                        </button>
+                      <div className="mt-3 space-y-3">
+                        <label className="flex items-center justify-center gap-1.5 text-xs text-zinc-500 dark:text-zinc-400 cursor-pointer select-none">
+                          <input
+                            type="checkbox"
+                            checked={pred?.penales1Pred != null}
+                            onChange={(e) => {
+                              const checked = e.target.checked
+                              setPredicciones((prev) => ({
+                                ...prev,
+                                [p.id]: {
+                                  ...prev[p.id],
+                                  goles1Pred: prev[p.id]?.goles1Pred ?? 0,
+                                  goles2Pred: prev[p.id]?.goles2Pred ?? 0,
+                                  penales1Pred: checked ? 0 : null,
+                                  penales2Pred: checked ? 0 : null,
+                                },
+                              }))
+                            }}
+                            className="rounded border-zinc-300 dark:border-zinc-600 text-amber-500 focus:ring-amber-500"
+                          />
+                          ¿Cree que va a penales?
+                        </label>
+                        {pred?.penales1Pred != null && (
+                          <div className="flex items-center justify-center gap-2">
+                            <span className="text-xs text-amber-500 dark:text-amber-400 font-medium">PEN</span>
+                            <input
+                              type="number"
+                              min={0}
+                              max={99}
+                              value={pred.penales1Pred ?? ''}
+                              onChange={(e) =>
+                                handleChange(p.id, 'penales1Pred', e.target.value)
+                              }
+                              className="w-14 h-10 text-center text-lg font-bold rounded-lg border border-zinc-300 dark:border-zinc-600 focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100"
+                            />
+                            <span className="text-zinc-400 dark:text-zinc-500 font-bold">-</span>
+                            <input
+                              type="number"
+                              min={0}
+                              max={99}
+                              value={pred.penales2Pred ?? ''}
+                              onChange={(e) =>
+                                handleChange(p.id, 'penales2Pred', e.target.value)
+                              }
+                              className="w-14 h-10 text-center text-lg font-bold rounded-lg border border-zinc-300 dark:border-zinc-600 focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100"
+                            />
+                          </div>
+                        )}
+                        <div className="text-center">
+                          <button
+                            onClick={() => guardar(p.id, g1, g2, pred?.penales1Pred ?? null, pred?.penales2Pred ?? null)}
+                            disabled={isSaving}
+                            className={`px-5 py-2 rounded-lg text-sm font-medium text-white transition-colors ${
+                              isSaving
+                                ? 'bg-blue-400 cursor-not-allowed'
+                                : 'bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600'
+                            }`}
+                          >
+                            {isSaving ? 'Guardando...' : 'Guardar Pronóstico'}
+                          </button>
+                        </div>
                       </div>
                     )}
 
