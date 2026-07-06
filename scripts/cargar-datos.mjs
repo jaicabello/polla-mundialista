@@ -10,7 +10,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const API_KEY = process.env.FOOTBALL_DATA_API_KEY || 'b6b52222233447f9be2bf44f854e74fb';
 
 const MAPA_FASES = {
-  'LAST_32': 'Treintaidosavos',
+  'LAST_32': 'Dieciseisavos',
   'LAST_16': 'Octavos de Final',
   'QUARTER_FINALS': 'Cuartos de Final',
   'SEMI_FINALS': 'Semifinal',

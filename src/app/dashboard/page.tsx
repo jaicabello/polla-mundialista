@@ -7,7 +7,7 @@ import type { Partido } from '@/types'
 import { getFlag } from '@/lib/flags'
 
 const ORDEN_FASES = [
-  'Treintaidosavos',
+  'Dieciseisavos',
   'Octavos de Final',
   'Cuartos de Final',
   'Semifinal',
@@ -16,7 +16,7 @@ const ORDEN_FASES = [
 ]
 
 const ICONOS_FASE: Record<string, string> = {
-  Treintaidosavos: '1/32',
+  Dieciseisavos: '1/16',
   'Octavos de Final': '1/8',
   'Cuartos de Final': '1/4',
   Semifinal: '1/2',
