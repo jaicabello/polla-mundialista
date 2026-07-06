@@ -1,36 +1,92 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Polla Mundialista 2026 ⚽
 
-## Getting Started
+Quiniela automatizada para la fase eliminatoria del Mundial 2026. Los puntajes se calculan automáticamente y el fixture se actualiza desde [Football-Data.org](https://www.football-data.org/).
 
-First, run the development server:
+## Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Next.js 16** (App Router)
+- **Firebase** (Firestore + Admin SDK)
+- **Tailwind CSS v4**
+- **Football-Data.org API**
+- **GitHub Actions** (cada 30 min actualiza resultados)
+- **Vercel** (hosting)
+
+## Scoring
+
+| Acierto | Pts |
+|---|---|
+| Resultado exacto (marcador completo) | 6 |
+| Ganador o empate acertado | 3 |
+| Incorrecto | 0 |
+
+## Pages
+
+| Ruta | Descripción |
+|---|---|
+| `/` | Ranking general en tiempo real |
+| `/dashboard` | Fixture con bracket por fase, entrada de resultados |
+| `/pronosticos` | Carga y consulta de pronósticos por usuario |
+
+### Fixture (`/dashboard`)
+- Tabs por fase (Dieciseisavos, Octavos, Cuartos, Semis, Tercer Puesto, Final)
+- Tarjetas con hora, equipos, banderas, resultado
+- Input para ingresar resultados manualmente (se bloquean al guardar)
+- Flecha de avance a siguiente fase
+
+### Pronósticos (`/pronosticos`)
+- Selector de usuario (persiste en localStorage)
+- Partidos pendientes: entrada editable de goles
+- Partidos finalizados: pronóstico vs resultado real lado a lado con indicador de acierto
+- Filtro por fase
+
+## Environment Variables
+
+Ver `.env.example`. Las necesarias:
+
+```
+# Firebase Client SDK
+NEXT_PUBLIC_FIREBASE_API_KEY=
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=
+NEXT_PUBLIC_FIREBASE_APP_ID=
+
+# Firebase Admin SDK
+FIREBASE_SERVICE_ACCOUNT_KEY=   # Base64 del JSON de cuenta de servicio
+FIREBASE_PROJECT_ID=
+
+# API
+FOOTBALL_DATA_API_KEY=
+FOOTBALL_COMPETITION_ID=WC
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Scripts
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# Cargar partidos desde Football-Data.org a Firestore
+node scripts/cargar-datos.mjs
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Cargar predicciones desde JSON
+node scripts/cargar-predicciones.mjs predicciones.json
+```
 
-## Learn More
+## Desarrollo
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm install
+npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deploy
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+git push
+# Vercel detecta el push y despliega automáticamente
+```
 
-## Deploy on Vercel
+Variables de entorno deben configurarse en **Vercel → Settings → Environment Variables** (Production + Preview).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Actualización automática
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+GitHub Actions corre `GET /api/cron/update-fixtures` cada 30 minutos para sincronizar resultados desde la API y recalcular puntajes. También se pueden ingresar resultados manualmente desde `/dashboard`.
