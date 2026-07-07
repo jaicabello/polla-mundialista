@@ -289,14 +289,16 @@ export default function PronosticosPage() {
                       })}
                     </div>
 
-                    <div className="text-center mb-3">
-                      <span className="text-base font-semibold dark:text-zinc-200">
-                        {getFlag(p.equipo1)} {p.equipo1}
+                    <div className="text-center mb-3 flex items-center justify-center gap-2">
+                      <span className="shrink-0">{getFlag(p.equipo1)}</span>
+                      <span className="text-base font-semibold dark:text-zinc-200 truncate max-w-[120px]">
+                        {p.equipo1}
                       </span>
-                      <span className="text-zinc-400 dark:text-zinc-500 mx-2 text-xs">vs</span>
-                      <span className="text-base font-semibold dark:text-zinc-200">
-                        {p.equipo2} {getFlag(p.equipo2)}
+                      <span className="shrink-0 text-zinc-400 dark:text-zinc-500 text-xs">vs</span>
+                      <span className="text-base font-semibold dark:text-zinc-200 truncate max-w-[120px]">
+                        {p.equipo2}
                       </span>
+                      <span className="shrink-0">{getFlag(p.equipo2)}</span>
                     </div>
 
                     <div className="flex items-center justify-center gap-4">
@@ -379,11 +381,12 @@ export default function PronosticosPage() {
                       })}
                     </div>
 
-                    <div className="flex items-center justify-center gap-3">
+                    <div className="flex items-center justify-center gap-2">
+                      <span className="shrink-0">{getFlag(p.equipo1)}</span>
                       <span className="text-base font-semibold w-24 text-right truncate dark:text-zinc-200">
-                        {getFlag(p.equipo1)} {p.equipo1}
+                        {p.equipo1}
                       </span>
-                      <div className="flex items-center gap-2">
+                      <div className="shrink-0 flex items-center gap-2">
                         <input
                           type="number"
                           min={0}
@@ -417,8 +420,9 @@ export default function PronosticosPage() {
                         />
                       </div>
                       <span className="text-base font-semibold w-24 truncate dark:text-zinc-200">
-                        {p.equipo2} {getFlag(p.equipo2)}
+                        {p.equipo2}
                       </span>
+                      <span className="shrink-0">{getFlag(p.equipo2)}</span>
                     </div>
 
                     {!expired && (

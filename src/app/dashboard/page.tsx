@@ -418,8 +418,12 @@ export default function DashboardPage() {
 
                           <div className="px-3 py-3">
                             <div className="flex items-center gap-2">
-                              <div className="flex-1 min-w-0">
-                                <div
+                              <div className="flex-1 min-w-0 flex items-center gap-1">
+                                {ganador === p.equipo1 && (
+                                  <span className="shrink-0 text-green-600 dark:text-green-400 mr-1">▶</span>
+                                )}
+                                <span className="shrink-0">{getFlag(p.equipo1)}</span>
+                                <span
                                   className={`text-sm font-semibold truncate ${
                                     ganador === p.equipo1
                                       ? 'text-green-700 dark:text-green-400'
@@ -428,11 +432,8 @@ export default function DashboardPage() {
                                       : 'text-zinc-800 dark:text-zinc-200'
                                   }`}
                                 >
-                                  {ganador === p.equipo1 && (
-                                    <span className="text-green-600 dark:text-green-400 mr-1">▶</span>
-                                  )}
-                                  {getFlag(p.equipo1)} {p.equipo1}
-                                </div>
+                                  {p.equipo1}
+                                </span>
                               </div>
 
                               <div className="shrink-0 flex flex-col items-center gap-0.5">
@@ -513,9 +514,9 @@ export default function DashboardPage() {
                                 )}
                               </div>
 
-                              <div className="flex-1 min-w-0">
-                                <div
-                                  className={`text-sm font-semibold truncate text-right ${
+                              <div className="flex-1 min-w-0 flex items-center justify-end gap-1">
+                                <span
+                                  className={`text-sm font-semibold truncate ${
                                     ganador === p.equipo2
                                       ? 'text-green-700 dark:text-green-400'
                                       : perdedor === p.equipo2
@@ -523,11 +524,12 @@ export default function DashboardPage() {
                                       : 'text-zinc-800 dark:text-zinc-200'
                                   }`}
                                 >
-                                  {p.equipo2} {getFlag(p.equipo2)}
-                                  {ganador === p.equipo2 && (
-                                    <span className="text-green-600 dark:text-green-400 ml-1">▶</span>
-                                  )}
-                                </div>
+                                  {p.equipo2}
+                                </span>
+                                <span className="shrink-0">{getFlag(p.equipo2)}</span>
+                                {ganador === p.equipo2 && (
+                                  <span className="shrink-0 text-green-600 dark:text-green-400 ml-1">▶</span>
+                                )}
                               </div>
                             </div>
 
