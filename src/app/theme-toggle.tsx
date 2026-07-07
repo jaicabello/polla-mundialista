@@ -1,12 +1,16 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useLayoutEffect } from 'react';
 
 export default function ThemeToggle() {
-  const [dark, setDark] = useState(() => {
-    if (typeof window === 'undefined') return false;
-    return document.documentElement.classList.contains('dark');
-  });
+  const [dark, setDark] = useState(false);
+
+  useLayoutEffect(() => {
+    const stored = localStorage.getItem('theme');
+    const isDark = stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    document.documentElement.classList.toggle('dark', isDark);
+    setDark(isDark);
+  }, []);
 
   return (
     <button

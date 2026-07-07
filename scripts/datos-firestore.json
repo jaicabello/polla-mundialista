@@ -7,6 +7,8 @@
       "equipo2": "Canada",
       "goles1Real": 0,
       "goles2Real": 1,
+      "golesPenales1": null,
+      "golesPenales2": null,
       "fechaLimite": "2026-06-28T19:00:00Z",
       "estado": "FT"
     },
@@ -17,6 +19,8 @@
       "equipo2": "Japan",
       "goles1Real": 2,
       "goles2Real": 1,
+      "golesPenales1": null,
+      "golesPenales2": null,
       "fechaLimite": "2026-06-29T17:00:00Z",
       "estado": "FT"
     },
@@ -27,6 +31,8 @@
       "equipo2": "Paraguay",
       "goles1Real": 1,
       "goles2Real": 1,
+      "golesPenales1": 3,
+      "golesPenales2": 4,
       "fechaLimite": "2026-06-29T20:30:00Z",
       "estado": "FT"
     },
@@ -37,6 +43,8 @@
       "equipo2": "Morocco",
       "goles1Real": 1,
       "goles2Real": 1,
+      "golesPenales1": 2,
+      "golesPenales2": 3,
       "fechaLimite": "2026-06-30T01:00:00Z",
       "estado": "FT"
     },
@@ -47,6 +55,8 @@
       "equipo2": "Norway",
       "goles1Real": 1,
       "goles2Real": 2,
+      "golesPenales1": null,
+      "golesPenales2": null,
       "fechaLimite": "2026-06-30T17:00:00Z",
       "estado": "FT"
     },
@@ -57,6 +67,8 @@
       "equipo2": "Sweden",
       "goles1Real": 3,
       "goles2Real": 0,
+      "golesPenales1": null,
+      "golesPenales2": null,
       "fechaLimite": "2026-06-30T21:00:00Z",
       "estado": "FT"
     },
@@ -67,6 +79,8 @@
       "equipo2": "Ecuador",
       "goles1Real": 2,
       "goles2Real": 0,
+      "golesPenales1": null,
+      "golesPenales2": null,
       "fechaLimite": "2026-07-01T02:00:00Z",
       "estado": "FT"
     },
@@ -77,6 +91,8 @@
       "equipo2": "Congo DR",
       "goles1Real": 2,
       "goles2Real": 1,
+      "golesPenales1": null,
+      "golesPenales2": null,
       "fechaLimite": "2026-07-01T16:00:00Z",
       "estado": "FT"
     },
@@ -87,6 +103,8 @@
       "equipo2": "Senegal",
       "goles1Real": 3,
       "goles2Real": 2,
+      "golesPenales1": null,
+      "golesPenales2": null,
       "fechaLimite": "2026-07-01T20:00:00Z",
       "estado": "FT"
     },
@@ -97,6 +115,8 @@
       "equipo2": "Bosnia-Herzegovina",
       "goles1Real": 2,
       "goles2Real": 0,
+      "golesPenales1": null,
+      "golesPenales2": null,
       "fechaLimite": "2026-07-02T00:00:00Z",
       "estado": "FT"
     },
@@ -107,6 +127,8 @@
       "equipo2": "Austria",
       "goles1Real": 3,
       "goles2Real": 0,
+      "golesPenales1": null,
+      "golesPenales2": null,
       "fechaLimite": "2026-07-02T19:00:00Z",
       "estado": "FT"
     },
@@ -117,6 +139,8 @@
       "equipo2": "Croatia",
       "goles1Real": 2,
       "goles2Real": 1,
+      "golesPenales1": null,
+      "golesPenales2": null,
       "fechaLimite": "2026-07-02T23:00:00Z",
       "estado": "FT"
     },
@@ -127,6 +151,8 @@
       "equipo2": "Algeria",
       "goles1Real": 2,
       "goles2Real": 0,
+      "golesPenales1": null,
+      "golesPenales2": null,
       "fechaLimite": "2026-07-03T03:00:00Z",
       "estado": "FT"
     },
@@ -137,6 +163,8 @@
       "equipo2": "Egypt",
       "goles1Real": 1,
       "goles2Real": 1,
+      "golesPenales1": 2,
+      "golesPenales2": 4,
       "fechaLimite": "2026-07-03T18:00:00Z",
       "estado": "FT"
     },
@@ -147,6 +175,8 @@
       "equipo2": "Cape Verde Islands",
       "goles1Real": 3,
       "goles2Real": 2,
+      "golesPenales1": null,
+      "golesPenales2": null,
       "fechaLimite": "2026-07-03T22:00:00Z",
       "estado": "FT"
     },
@@ -157,6 +187,8 @@
       "equipo2": "Ghana",
       "goles1Real": 1,
       "goles2Real": 0,
+      "golesPenales1": null,
+      "golesPenales2": null,
       "fechaLimite": "2026-07-04T01:30:00Z",
       "estado": "FT"
     },
@@ -167,6 +199,8 @@
       "equipo2": "Morocco",
       "goles1Real": 0,
       "goles2Real": 3,
+      "golesPenales1": null,
+      "golesPenales2": null,
       "fechaLimite": "2026-07-04T17:00:00Z",
       "estado": "FT"
     },
@@ -177,6 +211,8 @@
       "equipo2": "France",
       "goles1Real": 0,
       "goles2Real": 1,
+      "golesPenales1": null,
+      "golesPenales2": null,
       "fechaLimite": "2026-07-04T21:00:00Z",
       "estado": "FT"
     },
@@ -185,60 +221,72 @@
       "fase": "Octavos de Final",
       "equipo1": "Brazil",
       "equipo2": "Norway",
-      "goles1Real": null,
-      "goles2Real": null,
+      "goles1Real": 1,
+      "goles2Real": 2,
+      "golesPenales1": null,
+      "golesPenales2": null,
       "fechaLimite": "2026-07-05T20:00:00Z",
-      "estado": "NS"
+      "estado": "FT"
     },
     {
       "id": "537378",
       "fase": "Octavos de Final",
       "equipo1": "Mexico",
       "equipo2": "England",
-      "goles1Real": null,
-      "goles2Real": null,
-      "fechaLimite": "2026-07-06T00:00:00Z",
-      "estado": "NS"
+      "goles1Real": 2,
+      "goles2Real": 3,
+      "golesPenales1": null,
+      "golesPenales2": null,
+      "fechaLimite": "2026-07-06T01:00:00Z",
+      "estado": "FT"
     },
     {
       "id": "537379",
       "fase": "Octavos de Final",
       "equipo1": "Portugal",
       "equipo2": "Spain",
-      "goles1Real": null,
-      "goles2Real": null,
+      "goles1Real": 0,
+      "goles2Real": 1,
+      "golesPenales1": null,
+      "golesPenales2": null,
       "fechaLimite": "2026-07-06T19:00:00Z",
-      "estado": "NS"
+      "estado": "FT"
     },
     {
       "id": "537380",
       "fase": "Octavos de Final",
       "equipo1": "United States",
       "equipo2": "Belgium",
-      "goles1Real": null,
-      "goles2Real": null,
+      "goles1Real": 1,
+      "goles2Real": 4,
+      "golesPenales1": null,
+      "golesPenales2": null,
       "fechaLimite": "2026-07-07T00:00:00Z",
-      "estado": "NS"
+      "estado": "FT"
     },
     {
       "id": "537381",
       "fase": "Octavos de Final",
       "equipo1": "Argentina",
       "equipo2": "Egypt",
-      "goles1Real": null,
-      "goles2Real": null,
+      "goles1Real": 3,
+      "goles2Real": 2,
+      "golesPenales1": null,
+      "golesPenales2": null,
       "fechaLimite": "2026-07-07T16:00:00Z",
-      "estado": "NS"
+      "estado": "FT"
     },
     {
       "id": "537382",
       "fase": "Octavos de Final",
       "equipo1": "Switzerland",
       "equipo2": "Colombia",
-      "goles1Real": null,
-      "goles2Real": null,
+      "goles1Real": 0,
+      "goles2Real": 0,
+      "golesPenales1": 3,
+      "golesPenales2": 3,
       "fechaLimite": "2026-07-07T20:00:00Z",
-      "estado": "NS"
+      "estado": "FT"
     },
     {
       "id": "537383",
@@ -247,26 +295,32 @@
       "equipo2": "Morocco",
       "goles1Real": null,
       "goles2Real": null,
+      "golesPenales1": null,
+      "golesPenales2": null,
       "fechaLimite": "2026-07-09T20:00:00Z",
       "estado": "NS"
     },
     {
       "id": "537384",
       "fase": "Cuartos de Final",
-      "equipo1": "",
-      "equipo2": "",
+      "equipo1": "Spain",
+      "equipo2": "Belgium",
       "goles1Real": null,
       "goles2Real": null,
+      "golesPenales1": null,
+      "golesPenales2": null,
       "fechaLimite": "2026-07-10T19:00:00Z",
       "estado": "NS"
     },
     {
       "id": "537385",
       "fase": "Cuartos de Final",
-      "equipo1": "",
-      "equipo2": "",
+      "equipo1": "Norway",
+      "equipo2": "England",
       "goles1Real": null,
       "goles2Real": null,
+      "golesPenales1": null,
+      "golesPenales2": null,
       "fechaLimite": "2026-07-11T21:00:00Z",
       "estado": "NS"
     },
@@ -277,6 +331,8 @@
       "equipo2": "",
       "goles1Real": null,
       "goles2Real": null,
+      "golesPenales1": null,
+      "golesPenales2": null,
       "fechaLimite": "2026-07-12T01:00:00Z",
       "estado": "NS"
     },
@@ -287,6 +343,8 @@
       "equipo2": "",
       "goles1Real": null,
       "goles2Real": null,
+      "golesPenales1": null,
+      "golesPenales2": null,
       "fechaLimite": "2026-07-14T19:00:00Z",
       "estado": "NS"
     },
@@ -297,6 +355,8 @@
       "equipo2": "",
       "goles1Real": null,
       "goles2Real": null,
+      "golesPenales1": null,
+      "golesPenales2": null,
       "fechaLimite": "2026-07-15T19:00:00Z",
       "estado": "NS"
     },
@@ -307,6 +367,8 @@
       "equipo2": "",
       "goles1Real": null,
       "goles2Real": null,
+      "golesPenales1": null,
+      "golesPenales2": null,
       "fechaLimite": "2026-07-18T21:00:00Z",
       "estado": "NS"
     },
@@ -317,6 +379,8 @@
       "equipo2": "",
       "goles1Real": null,
       "goles2Real": null,
+      "golesPenales1": null,
+      "golesPenales2": null,
       "fechaLimite": "2026-07-19T19:00:00Z",
       "estado": "NS"
     }

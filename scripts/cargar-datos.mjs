@@ -26,15 +26,24 @@ function obtenerGoles(match) {
   const regularTime = match.score?.regularTime;
   const fullTime = match.score?.fullTime;
 
+  let goles1, goles2;
   if (penalties && regularTime) {
     // Partido definido por penales → usar 90 min
-    return { goles1: regularTime.home, goles2: regularTime.away };
+    goles1 = regularTime.home;
+    goles2 = regularTime.away;
+  } else if (fullTime && fullTime.home !== null && fullTime.away !== null) {
+    goles1 = fullTime.home;
+    goles2 = fullTime.away;
+  } else {
+    return { goles1: null, goles2: null, penales1: null, penales2: null };
   }
-  // Para partidos con extra time (sin penales) o normales
-  if (fullTime && fullTime.home !== null && fullTime.away !== null) {
-    return { goles1: fullTime.home, goles2: fullTime.away };
-  }
-  return { goles1: null, goles2: null };
+
+  return {
+    goles1,
+    goles2,
+    penales1: penalties?.home ?? null,
+    penales2: penalties?.away ?? null,
+  };
 }
 
 (async () => {
@@ -53,7 +62,7 @@ function obtenerGoles(match) {
     const knockout = matches.filter(m => knockoutStages.includes(m.stage));
 
     const partidos = knockout.map(m => {
-      const { goles1, goles2 } = obtenerGoles(m);
+      const { goles1, goles2, penales1, penales2 } = obtenerGoles(m);
       return {
         id: String(m.id),
         fase: MAPA_FASES[m.stage] || m.stage,
@@ -61,6 +70,8 @@ function obtenerGoles(match) {
         equipo2: m.awayTeam?.name || '',
         goles1Real: goles1,
         goles2Real: goles2,
+        golesPenales1: penales1,
+        golesPenales2: penales2,
         fechaLimite: m.utcDate,
         estado: goles1 !== null ? 'FT' : 'NS',
       };
@@ -78,6 +89,8 @@ function obtenerGoles(match) {
         equipo2: p.equipo2,
         goles1Real: p.goles1Real,
         goles2Real: p.goles2Real,
+        golesPenales1: p.golesPenales1,
+        golesPenales2: p.golesPenales2,
         fechaLimite: p.fechaLimite,
         estado: p.estado,
       }, null, 2));
@@ -117,9 +130,11 @@ function obtenerGoles(match) {
             equipo2: p.equipo2,
             goles1Real: p.goles1Real,
             goles2Real: p.goles2Real,
+            golesPenales1: p.golesPenales1,
+            golesPenales2: p.golesPenales2,
             fechaLimite: p.fechaLimite,
             estado: p.estado,
-          });
+          }, { merge: true });
         }
         await batch.commit();
         console.log(`✅ ${partidos.length} partidos cargados a Firestore`);
