@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
-import ThemeToggle from "./theme-toggle";
+import Nav from "./nav";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -55,33 +55,7 @@ export default function RootLayout({
             >
               ⚽ Polla Mundialista
             </Link>
-            <div className="flex items-center gap-2">
-              <Link
-                href="/"
-                className="px-3 py-1.5 rounded-md text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
-              >
-                Ranking
-              </Link>
-              <Link
-                href="/dashboard"
-                className="px-3 py-1.5 rounded-md text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
-              >
-                Fixture
-              </Link>
-              <Link
-                href="/pronosticos"
-                className="px-3 py-1.5 rounded-md text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
-              >
-                Pronósticos
-              </Link>
-              <Link
-                href="/goleadores"
-                className="px-3 py-1.5 rounded-md text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
-              >
-                Goleadores
-              </Link>
-              <ThemeToggle />
-            </div>
+            <Nav />
           </nav>
         </header>
         <main className="flex-1">{children}</main>
