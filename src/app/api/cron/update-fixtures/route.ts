@@ -11,6 +11,55 @@ interface FinishedMatch {
   penales2: number | null;
 }
 
+interface PartidoDoc {
+  id: string;
+  fase: string;
+  equipo1: string;
+  equipo2: string;
+  goles1Real: number | null;
+  goles2Real: number | null;
+  golesPenales1: number | null;
+  golesPenales2: number | null;
+  fechaLimite: string;
+  estado: string;
+}
+
+function getGanador(p: PartidoDoc): string | null {
+  if (p.goles1Real === null || p.goles2Real === null) return null;
+  if (p.goles1Real > p.goles2Real) return p.equipo1;
+  if (p.goles2Real > p.goles1Real) return p.equipo2;
+  if (p.golesPenales1 !== null && p.golesPenales2 !== null) {
+    if (p.golesPenales1 > p.golesPenales2) return p.equipo1;
+    if (p.golesPenales2 > p.golesPenales1) return p.equipo2;
+  }
+  return null;
+}
+
+function getPerdedor(p: PartidoDoc): string | null {
+  if (p.goles1Real === null || p.goles2Real === null) return null;
+  if (p.goles1Real > p.goles2Real) return p.equipo2;
+  if (p.goles2Real > p.goles1Real) return p.equipo1;
+  return null;
+}
+
+// Mapa de avance: partidoId actual → [{ partidoId destino, posición }]
+const AVANCE_ELIMINATORIA: Record<string, { partidoId: string; posicion: 'equipo1' | 'equipo2'; tipo: 'ganador' | 'perdedor' }[]> = {
+  // Cuartos → Semifinal
+  '537383': [{ partidoId: '537387', posicion: 'equipo1', tipo: 'ganador' }],
+  '537384': [{ partidoId: '537387', posicion: 'equipo2', tipo: 'ganador' }],
+  '537385': [{ partidoId: '537388', posicion: 'equipo1', tipo: 'ganador' }],
+  '537386': [{ partidoId: '537388', posicion: 'equipo2', tipo: 'ganador' }],
+  // Semifinal → Final & Tercer Puesto
+  '537387': [
+    { partidoId: '537390', posicion: 'equipo1', tipo: 'ganador' },
+    { partidoId: '537389', posicion: 'equipo1', tipo: 'perdedor' },
+  ],
+  '537388': [
+    { partidoId: '537390', posicion: 'equipo2', tipo: 'ganador' },
+    { partidoId: '537389', posicion: 'equipo2', tipo: 'perdedor' },
+  ],
+};
+
 interface FootballDataMatch {
   id: number | string;
   status: string;
@@ -150,6 +199,23 @@ export async function GET() {
       });
 
       await batch.commit();
+
+      // Avanzar ganadores a la siguiente fase
+      const avance = AVANCE_ELIMINATORIA[match.id];
+      if (avance) {
+        const partidoActual = { ...partidoData, id: match.id, goles1Real: match.goles1, goles2Real: match.goles2, golesPenales1: match.penales1, golesPenales2: match.penales2 } as PartidoDoc;
+        for (const dest of avance) {
+          const equipo = dest.tipo === 'ganador' ? getGanador(partidoActual) : getPerdedor(partidoActual);
+          if (!equipo) continue;
+          const destRef = partidosRef.doc(dest.partidoId);
+          const destSnap = await destRef.get();
+          if (!destSnap.exists) continue;
+          const destData = destSnap.data()!;
+          if (destData[dest.posicion] && destData[dest.posicion] !== '') continue;
+          await destRef.update({ [dest.posicion]: equipo });
+          processedCount++;
+        }
+      }
     }
 
     return NextResponse.json({
