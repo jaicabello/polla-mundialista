@@ -74,6 +74,12 @@ export default function RootLayout({
               >
                 Pronósticos
               </Link>
+              <Link
+                href="/goleadores"
+                className="px-3 py-1.5 rounded-md text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+              >
+                Goleadores
+              </Link>
               <ThemeToggle />
             </div>
           </nav>
