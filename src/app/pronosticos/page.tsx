@@ -256,8 +256,8 @@ export default function PronosticosPage() {
             const expired = isExpired(p.fechaLimite)
             const tieneResultado = p.goles1Real !== null && p.goles2Real !== null
             const pred = predicciones[p.id]
-            const g1 = pred?.goles1Pred ?? 0
-            const g2 = pred?.goles2Pred ?? 0
+            const g1 = pred?.goles1Pred
+            const g2 = pred?.goles2Pred
             const isSaving = saving === p.id
 
             return (
@@ -394,7 +394,7 @@ export default function PronosticosPage() {
                           pattern="[0-9]*"
                           min={0}
                           max={99}
-                          value={g1 || ''}
+                          value={g1 !== undefined ? String(g1) : ''}
                           disabled={expired}
                           onFocus={(e) => e.target.select()}
                           onChange={(e) =>
@@ -413,7 +413,7 @@ export default function PronosticosPage() {
                           pattern="[0-9]*"
                           min={0}
                           max={99}
-                          value={g2 || ''}
+                          value={g2 !== undefined ? String(g2) : ''}
                           disabled={expired}
                           onFocus={(e) => e.target.select()}
                           onChange={(e) =>
@@ -489,7 +489,7 @@ export default function PronosticosPage() {
                         )}
                         <div className="text-center">
                           <button
-                            onClick={() => guardar(p.id, g1, g2, pred?.penales1Pred ?? null, pred?.penales2Pred ?? null)}
+                            onClick={() => guardar(p.id, g1 ?? 0, g2 ?? 0, pred?.penales1Pred ?? null, pred?.penales2Pred ?? null)}
                             disabled={isSaving}
                             className={`px-5 py-2 rounded-lg text-sm font-medium text-white transition-colors ${
                               isSaving
