@@ -163,6 +163,10 @@ export default function PronosticosPage() {
         penalesPuntos: 0,
         procesado: false,
       })
+      setPredicciones((prev) => ({
+        ...prev,
+        [partidoId]: { goles1Pred: goles1, goles2Pred: goles2, penales1Pred: penales1, penales2Pred: penales2 },
+      }))
       setFeedback({ tipo: 'ok', msg: 'Pronóstico guardado' })
       setTimeout(() => setFeedback(null), 2000)
     } catch {
