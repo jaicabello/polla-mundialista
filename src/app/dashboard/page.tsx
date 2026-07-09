@@ -474,17 +474,20 @@ export default function DashboardPage() {
                                 ) : (
                                   <div className="flex items-center gap-1">
                                     <input
-                                      type="number"
+                                      type="text"
+                                      inputMode="numeric"
+                                      pattern="[0-9]*"
                                       min={0}
                                       max={99}
                                       placeholder="-"
                                       value={form.goles1}
+                                      onFocus={(e) => e.target.select()}
                                       onChange={(e) =>
                                         setForms((prev) => ({
                                           ...prev,
                                           [p.id]: {
                                             ...prev[p.id],
-                                            goles1: e.target.value,
+                                            goles1: e.target.value.replace(/\D/g, ''),
                                           },
                                         }))
                                       }
@@ -494,17 +497,20 @@ export default function DashboardPage() {
                                       :
                                     </span>
                                     <input
-                                      type="number"
+                                      type="text"
+                                      inputMode="numeric"
+                                      pattern="[0-9]*"
                                       min={0}
                                       max={99}
                                       placeholder="-"
                                       value={form.goles2}
+                                      onFocus={(e) => e.target.select()}
                                       onChange={(e) =>
                                         setForms((prev) => ({
                                           ...prev,
                                           [p.id]: {
                                             ...prev[p.id],
-                                            goles2: e.target.value,
+                                            goles2: e.target.value.replace(/\D/g, ''),
                                           },
                                         }))
                                       }
@@ -587,17 +593,20 @@ export default function DashboardPage() {
                                       <div className="flex items-center gap-2">
                                         <span className="text-[10px] text-zinc-400 dark:text-zinc-500 font-medium">PEN</span>
                                         <input
-                                          type="number"
+                                          type="text"
+                                          inputMode="numeric"
+                                          pattern="[0-9]*"
                                           min={0}
                                           max={99}
                                           placeholder="0"
                                           value={form.penales1}
+                                          onFocus={(e) => e.target.select()}
                                           onChange={(e) =>
                                             setForms((prev) => ({
                                               ...prev,
                                               [p.id]: {
                                                 ...prev[p.id],
-                                                penales1: e.target.value,
+                                                penales1: e.target.value.replace(/\D/g, ''),
                                               },
                                             }))
                                           }
@@ -605,17 +614,20 @@ export default function DashboardPage() {
                                         />
                                         <span className="text-zinc-300 dark:text-zinc-600 font-bold text-[10px]">-</span>
                                         <input
-                                          type="number"
+                                          type="text"
+                                          inputMode="numeric"
+                                          pattern="[0-9]*"
                                           min={0}
                                           max={99}
                                           placeholder="0"
                                           value={form.penales2}
+                                          onFocus={(e) => e.target.select()}
                                           onChange={(e) =>
                                             setForms((prev) => ({
                                               ...prev,
                                               [p.id]: {
                                                 ...prev[p.id],
-                                                penales2: e.target.value,
+                                                penales2: e.target.value.replace(/\D/g, ''),
                                               },
                                             }))
                                           }

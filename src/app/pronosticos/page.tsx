@@ -129,7 +129,8 @@ export default function PronosticosPage() {
     campo: 'goles1Pred' | 'goles2Pred' | 'penales1Pred' | 'penales2Pred',
     valor: string
   ) => {
-    const num = valor === '' ? 0 : Math.max(0, parseInt(valor, 10) || 0)
+    const limpio = valor.replace(/\D/g, '')
+    const num = limpio === '' ? 0 : Math.max(0, parseInt(limpio, 10) || 0)
     setPredicciones((prev) => ({
       ...prev,
       [partidoId]: {
@@ -388,11 +389,14 @@ export default function PronosticosPage() {
                       </span>
                       <div className="shrink-0 flex items-center gap-2">
                         <input
-                          type="number"
+                          type="text"
+                          inputMode="numeric"
+                          pattern="[0-9]*"
                           min={0}
                           max={99}
-                          value={g1}
+                          value={g1 || ''}
                           disabled={expired}
+                          onFocus={(e) => e.target.select()}
                           onChange={(e) =>
                             handleChange(p.id, 'goles1Pred', e.target.value)
                           }
@@ -404,11 +408,14 @@ export default function PronosticosPage() {
                         />
                         <span className="text-zinc-400 dark:text-zinc-500 font-bold">-</span>
                         <input
-                          type="number"
+                          type="text"
+                          inputMode="numeric"
+                          pattern="[0-9]*"
                           min={0}
                           max={99}
-                          value={g2}
+                          value={g2 || ''}
                           disabled={expired}
+                          onFocus={(e) => e.target.select()}
                           onChange={(e) =>
                             handleChange(p.id, 'goles2Pred', e.target.value)
                           }
@@ -452,10 +459,13 @@ export default function PronosticosPage() {
                           <div className="flex items-center justify-center gap-2">
                             <span className="text-xs text-amber-500 dark:text-amber-400 font-medium">PEN</span>
                             <input
-                              type="number"
+                              type="text"
+                              inputMode="numeric"
+                              pattern="[0-9]*"
                               min={0}
                               max={99}
                               value={pred.penales1Pred ?? ''}
+                              onFocus={(e) => e.target.select()}
                               onChange={(e) =>
                                 handleChange(p.id, 'penales1Pred', e.target.value)
                               }
@@ -463,10 +473,13 @@ export default function PronosticosPage() {
                             />
                             <span className="text-zinc-400 dark:text-zinc-500 font-bold">-</span>
                             <input
-                              type="number"
+                              type="text"
+                              inputMode="numeric"
+                              pattern="[0-9]*"
                               min={0}
                               max={99}
                               value={pred.penales2Pred ?? ''}
+                              onFocus={(e) => e.target.select()}
                               onChange={(e) =>
                                 handleChange(p.id, 'penales2Pred', e.target.value)
                               }
