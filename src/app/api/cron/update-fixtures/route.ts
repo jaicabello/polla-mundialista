@@ -152,7 +152,8 @@ export async function GET() {
 
       const partidoData = partidoSnap.data()!;
       if (partidoData.estado === 'FT') continue;
-      if (new Date(partidoData.fechaLimite) > new Date()) continue;
+      const fechaFin = new Date(partidoData.fechaLimite).getTime() + 4 * 60 * 60 * 1000
+      if (Date.now() < fechaFin) continue;
 
       const prediccionesSnap = await prediccionesRef
         .where('partidoId', '==', match.id)
