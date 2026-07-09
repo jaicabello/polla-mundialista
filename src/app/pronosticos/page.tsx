@@ -490,9 +490,9 @@ export default function PronosticosPage() {
                         <div className="text-center">
                           <button
                             onClick={() => guardar(p.id, g1 ?? 0, g2 ?? 0, pred?.penales1Pred ?? null, pred?.penales2Pred ?? null)}
-                            disabled={isSaving}
+                            disabled={isSaving || g1 === undefined || g2 === undefined}
                             className={`px-5 py-2 rounded-lg text-sm font-medium text-white transition-colors ${
-                              isSaving
+                              isSaving || g1 === undefined || g2 === undefined
                                 ? 'bg-blue-400 cursor-not-allowed'
                                 : 'bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600'
                             }`}
