@@ -200,22 +200,27 @@ export async function GET() {
       });
 
       await batch.commit();
+    }
 
-      // Avanzar ganadores a la siguiente fase
-      const avance = AVANCE_ELIMINATORIA[match.id];
-      if (avance) {
-        const partidoActual = { ...partidoData, id: match.id, goles1Real: match.goles1, goles2Real: match.goles2, golesPenales1: match.penales1, golesPenales2: match.penales2 } as PartidoDoc;
-        for (const dest of avance) {
-          const equipo = dest.tipo === 'ganador' ? getGanador(partidoActual) : getPerdedor(partidoActual);
-          if (!equipo) continue;
-          const destRef = partidosRef.doc(dest.partidoId);
-          const destSnap = await destRef.get();
-          if (!destSnap.exists) continue;
-          const destData = destSnap.data()!;
-          if (destData[dest.posicion] && destData[dest.posicion] !== '') continue;
-          await destRef.update({ [dest.posicion]: equipo });
-          processedCount++;
-        }
+    // Avanzar ganadores a la siguiente fase para TODOS los FT (incluso resultados manuales)
+    const avanceKeys = Object.keys(AVANCE_ELIMINATORIA);
+    for (const matchId of avanceKeys) {
+      const partidoSnap = await partidosRef.doc(matchId).get();
+      if (!partidoSnap.exists) continue;
+      const partidoData = partidoSnap.data()! as PartidoDoc;
+      if (partidoData.estado !== 'FT') continue;
+
+      const avance = AVANCE_ELIMINATORIA[matchId];
+      for (const dest of avance) {
+        const equipo = dest.tipo === 'ganador' ? getGanador(partidoData) : getPerdedor(partidoData);
+        if (!equipo) continue;
+        const destRef = partidosRef.doc(dest.partidoId);
+        const destSnap = await destRef.get();
+        if (!destSnap.exists) continue;
+        const destData = destSnap.data()!;
+        if (destData[dest.posicion] && destData[dest.posicion] !== '') continue;
+        await destRef.update({ [dest.posicion]: equipo });
+        processedCount++;
       }
     }
 
